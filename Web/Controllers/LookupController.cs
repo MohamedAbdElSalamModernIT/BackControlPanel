@@ -19,6 +19,11 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(request));
         }
+        [HttpGet("dashboard-counts")]
+        public async Task<ActionResult> GetDahboardQuery([FromQuery] GetDahboardQuery request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
         [HttpPut("information")]
         public async Task<ActionResult> UpdateInformationCommand(UpdateInformationCommand request)
         {

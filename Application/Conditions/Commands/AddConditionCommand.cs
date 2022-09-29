@@ -65,9 +65,11 @@ namespace Application.Conditions.Commands
                 && e.ConditionID == request.ConditionID
                 ).FirstOrDefaultAsync(cancellationToken);
 
-            condition.ParametersValues = xmlService.UpdateXml(request.Parameters, referenceXml.ParametersValues);
+            var values = xmlService.UpdateXml(request.Parameters, referenceXml.ParametersValues);
+            condition.ParametersValues = values;
             if (conditionmap != null)
             {
+                conditionmap.ParametersValues = values;
                 _context.Edit(conditionmap);
             }
             else
