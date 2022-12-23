@@ -20,23 +20,34 @@ using static Persistence.ValueConverters.LocalizedDataConverter;
 namespace Persistence
 {
     public class AppDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>,
-        UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>, IAppDbContext
+        UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>,
+        IAppDbContext
     {
         private readonly IAuditService _auditService;
 
         #region Dbsets
-        public DbSet<RefreshToken> RefreshToken { get; set; }
-        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Condition> tblConditions { get; set; }
         public DbSet<Place> tblPlaces { get; set; }
         public DbSet<Domain.Entities.Benaa.Version> tblVersions { get; set; }
         public DbSet<Information> tblInformation { get; set; }
         public DbSet<BuildingType> tblBuildingTypes { get; set; }
         public DbSet<ConditionsMap> tblConditionsMap { get; set; }
-        public DbSet<Category> tblCategories { get; set; }
         public DbSet<Baladia> tblAlBaladiat { get; set; }
         public DbSet<Area> _tblAreas { get; set; }
         public DbSet<Amana> _tblAlamanat { get; set; }
+
+
+
+        public DbSet<RefreshToken> RefreshToken { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Category> tblCategories { get; set; }
+        public DbSet<Drawing> tblDrawings { get; set; }
+        
+        public DbSet<DrawingLog> tblDrawingLogs { get; set; }
+        public DbSet<ConditionResult> tblConditionResults { get; set; }
+        public DbSet<Client> tblClients { get; set; }
+        public DbSet<Employee> tblEmployees { get; set; }
+
         #endregion
 
 
@@ -143,7 +154,7 @@ namespace Persistence
             return base.Add(entity);
         }
 
-        
+
         public override ValueTask<EntityEntry> AddAsync(object entity, CancellationToken cancellationToken = default)
         {
             if (entity is IAudit audit)

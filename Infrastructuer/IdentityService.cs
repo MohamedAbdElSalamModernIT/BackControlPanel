@@ -11,6 +11,7 @@ using Common.Extensions;
 using Common.Interfaces;
 using Common.Options;
 using Domain.Entities.Auth;
+using Domain.Entities.Benaa;
 using Domain.Enums.Roles;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -201,6 +202,20 @@ namespace Infrastructure
         {
             var permissions = _permissionServices.GetPermissionListForUser(appUser);
 
+            var client = new Client();
+            var employee = new Employee();
+
+            switch (appUser.Type)
+            {
+                case Domain.Enums.UserType.Employee:
+                    employee = await _context.tblEmployees.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
+
+                    break;
+                case Domain.Enums.UserType.Client:
+                    client = (Client)await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
+                    break;
+            }
+
 
             var claims = new List<Claim> {
         new Claim(ClaimTypes.Name, appUser.UserName),
@@ -211,6 +226,9 @@ namespace Infrastructure
         //new Claim("allowedModules", appUser.AllowedModules.ToString()),
         new Claim("permissions", JsonConvert.SerializeObject(permissions)),
         new Claim("email", appUser.UserName),
+        new Claim("fullName", appUser.FullName),
+        new Claim("officeName", client.OfficeName),
+        new Claim("baladiaId",employee.BaladiaId.ToString()),
         new Claim("fullName", appUser.FullName),
         new Claim("role", JsonConvert.SerializeObject(appUser.UserRoles.Select(s => s.Role.Name))),
 
