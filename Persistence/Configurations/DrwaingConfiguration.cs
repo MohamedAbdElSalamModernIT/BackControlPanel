@@ -14,6 +14,9 @@ namespace Persistence.Configurations
             builder.Property(c => c.Id)
             .HasValueGenerator<SeqIdValueGenerator>()
             .ValueGeneratedOnAdd();
+            
+            builder.Property(c => c.RequestNo)
+            .ValueGeneratedOnAdd();
 
             builder.HasMany(e => e.Logs)
                 .WithOne(e=>e.Drwaing).HasForeignKey(e => e.DrwaingId);

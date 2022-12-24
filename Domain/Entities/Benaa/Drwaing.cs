@@ -24,7 +24,7 @@ namespace Domain.Entities.Benaa
 
         public int BaladiaId { get; set; }
         public Baladia Baladia { get; set; }
-
+        public int RequestNo { get; set; }
         public int BuildingTypeId { get; set; }
         public BuildingType BuildingType { get; set; }
 

@@ -15,6 +15,7 @@ namespace Application.Drawings.Queries
 {
     public class GetDrawingsWithPaginationQuery : Paging, IRequest<Result>
     {
+        public string ClientId { get; set; }
         public int? BuildingTypeId { get; set; }
         public int? BaladiaId { get; set; }
     }
@@ -31,10 +32,14 @@ namespace Application.Drawings.Queries
             var query = _context.tblDrawings
                 .Include(e=>e.Baladia)
                 .Include(e=>e.BuildingType)
+                .Include(e=>e.Client)
                 .AsQueryable();
 
 
 
+            if (!string.IsNullOrEmpty(request.ClientId))
+                query = query.Where(e => e.ClientId == request.ClientId);
+            
             if (request.BuildingTypeId.HasValue)
                 query = query.Where(e => e.BuildingTypeId == request.BuildingTypeId.Value);
 

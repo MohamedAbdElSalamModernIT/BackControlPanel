@@ -30,10 +30,10 @@ namespace Application.Drawings.Commands
     {
         public CreateDrawingValidator()
         {
-            RuleFor(r => r.FileType).NotEmpty().NotNull()
+            RuleFor(r => r.FileType).NotNull()
                   .WithMessage("FileType is Required");
 
-            RuleFor(r => r.DrawingType).NotEmpty().NotNull()
+            RuleFor(r => r.DrawingType).NotNull()
                   .WithMessage("DrawingType is Required");
 
             RuleFor(r => r.BaladiaId).NotNull()
@@ -58,7 +58,7 @@ namespace Application.Drawings.Commands
         {
             var drwaing = request.Adapt<Drawing>();
             drwaing.ClientId = auditService.UserId;
-
+          
             await _context.CreateAsync(drwaing, cancellationToken);
             return Result.Successed(drwaing.Adapt<DrwaingDto>());
         }
