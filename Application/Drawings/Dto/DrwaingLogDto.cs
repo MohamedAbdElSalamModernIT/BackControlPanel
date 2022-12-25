@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using System;
 
 namespace Application.Drawings.Dto
 {
@@ -9,6 +10,7 @@ namespace Application.Drawings.Dto
         public int FailNo { get; set; }
         public int OtherNo { get; set; }
         public ConditionStatus Result { get; set; }
-        public string DrwaingId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

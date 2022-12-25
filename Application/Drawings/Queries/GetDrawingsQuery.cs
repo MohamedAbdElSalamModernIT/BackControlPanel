@@ -30,10 +30,10 @@ namespace Application.Drawings.Queries
         public async Task<Result> Handle(GetDrawingsQuery request, CancellationToken cancellationToken)
         {
             var drawings = await _context.tblDrawings
-                .Include(e => e.Baladia)
+                .Include(e => e.Baladia).ThenInclude(e=>e.Amana)
                 .Include(e => e.BuildingType)
                 .Where(e => e.ClientId == auditService.UserId)
-                .ProjectToType<DrwaingDto>()
+                .ProjectToType<DrwaingPluginDto>()
                 .ToListAsync(cancellationToken);
 
             return Result.Successed(drawings);

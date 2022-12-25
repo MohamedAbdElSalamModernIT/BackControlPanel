@@ -60,7 +60,7 @@ namespace Application.Drawings.Commands
             drwaing.ClientId = auditService.UserId;
           
             await _context.CreateAsync(drwaing, cancellationToken);
-            return Result.Successed(drwaing.Adapt<DrwaingDto>());
+            return Result.Successed(drwaing.Adapt<DrwaingPluginDto>());
         }
     }
 

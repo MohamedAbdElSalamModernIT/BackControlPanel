@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Application.Drawings.Dto;
 
-namespace Application.DrawingLogs.Queries
+namespace Application.Drawings.Queries
 {
     public class GetDrawingLogsWithPaginationQuery : Paging, IRequest<Result>
     {
@@ -29,6 +29,7 @@ namespace Application.DrawingLogs.Queries
         {
             var query = _context.tblDrawingLogs
                 .Where(e => e.DrwaingId == request.DrawingId)
+                .OrderByDescending(e => e.CreatedDate)
                 .AsQueryable();
 
             var drawingLogs = await query.ProjectToType<DrwaingLogDto>()

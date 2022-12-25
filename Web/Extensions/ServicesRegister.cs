@@ -25,6 +25,7 @@ namespace Web.Extensions {
               .AddScoped<IImageService, ImageService>()
               .AddScoped<IUrlHelper, UrlHelper>()
               .AddScoped<IXmlService, XmlService>()
+              .AddScoped<IExcelService, ExcelService>()
               .AddSingleton<ISettingService, SettingService>();
 
             ;

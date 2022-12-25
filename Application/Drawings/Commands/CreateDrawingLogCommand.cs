@@ -98,7 +98,7 @@ namespace Application.Drawings.Commands
 
             await _context.CreateAsync(drwaingLog, cancellationToken);
 
-            return Result.Successed(drwaingLog.Adapt<DrwaingDto>());
+            return Result.Successed(drwaingLog.Adapt<DrwaingPluginDto>());
         }
     }
 
