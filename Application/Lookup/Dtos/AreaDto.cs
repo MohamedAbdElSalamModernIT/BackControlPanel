@@ -38,4 +38,6 @@ namespace Application.Lookup.Dtos
             get; set;
         }
     }
+
+    public record Value(int id, string Name);
 }

@@ -35,9 +35,15 @@ namespace Application.Drawings.Dto
     }
 
 
-    public class DrwaingBaladia
+    public class DrwaingBaladia : IRegister
     {
         public int ID { get; set; }
         public string Name { get; set; }
+
+        public void Register(TypeAdapterConfig config)
+        {
+            config.NewConfig<BuildingType, DrwaingBaladia>()
+                .Map(dest => dest.ID, src => src.ExternalCode.Value);
+        }
     }
 }

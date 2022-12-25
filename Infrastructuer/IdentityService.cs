@@ -223,6 +223,7 @@ namespace Infrastructure
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         new Claim(ClaimTypes.NameIdentifier, appUser.Id),
         new Claim("UserId", appUser.Id),
+        new Claim("AmanId", "1"),
         //new Claim("allowedModules", appUser.AllowedModules.ToString()),
         new Claim("permissions", JsonConvert.SerializeObject(permissions)),
         new Claim("email", appUser.UserName),

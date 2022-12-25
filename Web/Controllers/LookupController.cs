@@ -35,6 +35,7 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(request));
         }
+       
         [HttpGet("versions")]
         public async Task<ActionResult> GetVersionsQuery([FromQuery] GetVersionsQuery request)
         {
@@ -42,6 +43,11 @@ namespace Web.Controllers.Catalog
         }
         [HttpGet("amanat")]
         public async Task<ActionResult> GetAmanat([FromQuery] GetAmanatByAreaIdQuery request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
+        [HttpGet("enums")]
+        public async Task<ActionResult> GetEnumsQuery([FromQuery] GetEnumsQuery request)
         {
             return ReturnResult(await Mediator.Send(request));
         }

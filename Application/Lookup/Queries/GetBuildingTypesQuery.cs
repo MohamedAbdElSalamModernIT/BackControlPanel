@@ -7,6 +7,7 @@ using System.Linq;
 using Mapster;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Lookup.Dtos;
 
 namespace Application.Lookup.Queries
 {
@@ -29,4 +30,5 @@ namespace Application.Lookup.Queries
             return Result.Successed(buildingTypes);
         }
     }
+   
 }
