@@ -12,6 +12,7 @@ using Common.Interfaces;
 using Common.Options;
 using Domain.Entities.Auth;
 using Domain.Entities.Benaa;
+using Domain.Enums;
 using Domain.Enums.Roles;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -202,17 +203,15 @@ namespace Infrastructure
         {
             var permissions = _permissionServices.GetPermissionListForUser(appUser);
 
-            var client = new Client();
-            var employee = new Employee();
-
-            switch (appUser.Type)
+            var client = await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
+            var id = "";
+            switch (client.Type)
             {
-                case Domain.Enums.UserType.Employee:
-                    employee = await _context.tblEmployees.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
-
+                case UserType.AmanaManager or UserType.Client:
+                    id = client.AmanaId.ToString();
                     break;
-                case Domain.Enums.UserType.Client:
-                    client = (Client)await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
+                case UserType.BaladiaEmployee:
+                    id = client.BaladiaId.ToString();
                     break;
             }
 
@@ -223,13 +222,12 @@ namespace Infrastructure
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         new Claim(ClaimTypes.NameIdentifier, appUser.Id),
         new Claim("UserId", appUser.Id),
-        new Claim("AmanId", "1"),
+        new Claim("AmanId", id),
         //new Claim("allowedModules", appUser.AllowedModules.ToString()),
         new Claim("permissions", JsonConvert.SerializeObject(permissions)),
         new Claim("email", appUser.UserName),
         new Claim("fullName", appUser.FullName),
         new Claim("officeName", client.OfficeName),
-        new Claim("baladiaId",employee.BaladiaId.ToString()),
         new Claim("fullName", appUser.FullName),
         new Claim("role", JsonConvert.SerializeObject(appUser.UserRoles.Select(s => s.Role.Name))),
 

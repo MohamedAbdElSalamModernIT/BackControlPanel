@@ -28,11 +28,5 @@ namespace Persistence.Configurations {
             builder.HasKey(c => c.IdentityId);
         }
     }
-    
-    public class EmployeeConfiguration : IEntityTypeConfiguration<Employee> {
-        public void Configure(EntityTypeBuilder<Employee> builder)
-        {
-            builder.HasKey(c => c.IdentityId);
-        }
-    }
+
 }

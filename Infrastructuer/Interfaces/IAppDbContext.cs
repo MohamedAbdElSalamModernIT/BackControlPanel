@@ -33,7 +33,6 @@ namespace Infrastructure.Interfaces
         DbSet<DrawingLog> tblDrawingLogs { get; set; }
         DbSet<ConditionResult> tblConditionResults { get; set; }
         DbSet<Client> tblClients { get; set; }
-        DbSet<Employee> tblEmployees { get; set; }
 
         DbSet<RefreshToken> RefreshToken { get; set; }
         Task<int> SaveChangesAsync();

@@ -76,6 +76,8 @@ namespace Application.Drawings.Commands
                     .Where(e => e.AlBaladiaID == drawing.BaladiaId && e.BuildingTypeID == drawing.BaladiaId)
                     .ToListAsync();
 
+            var drawingLog = request.Adapt<DrawingLog>();
+
             var logResults = conditions
                                 .Select(s =>
                                 {
@@ -87,18 +89,18 @@ namespace Application.Drawings.Commands
                                     }
                                     return new ConditionResult
                                     {
+                                        LogId= drawingLog.Id,
                                         ConditionId = s.ConditionID,
                                         CurrentCondition = description,
                                         Status = request.ConditionResults.FirstOrDefault(e => e.ConditionId == s.ConditionID).Status
                                     };
                                 }).ToHashSet();
 
-            var drwaingLog = request.Adapt<DrawingLog>();
-            drwaingLog.Results = logResults;
+            drawingLog.Results = logResults;
 
-            await _context.CreateAsync(drwaingLog, cancellationToken);
+            await _context.CreateAsync(drawingLog, cancellationToken);
 
-            return Result.Successed(drwaingLog.Adapt<DrwaingPluginDto>());
+            return Result.Successed(drawingLog.Adapt<DrwaingPluginDto>());
         }
     }
 

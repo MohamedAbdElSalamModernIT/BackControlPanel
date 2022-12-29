@@ -22,7 +22,6 @@ namespace Domain.Entities.Auth
         public string DeletedBy { get; set; }
         public DateTime? DeletedDate { get; set; }
         public SystemModule AllowedModules { get; set; }
-        public UserType? Type { get; set; }
         public string Permissions { get; set; }
         public bool Active { get; set; } = true;
         public HashSet<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();

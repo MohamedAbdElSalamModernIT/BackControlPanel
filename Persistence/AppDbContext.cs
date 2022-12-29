@@ -46,7 +46,6 @@ namespace Persistence
         public DbSet<DrawingLog> tblDrawingLogs { get; set; }
         public DbSet<ConditionResult> tblConditionResults { get; set; }
         public DbSet<Client> tblClients { get; set; }
-        public DbSet<Employee> tblEmployees { get; set; }
 
         #endregion
 
