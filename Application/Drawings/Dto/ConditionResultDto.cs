@@ -1,8 +1,10 @@
-﻿using Domain.Entities.Benaa;
+﻿using Common.Extensions;
+using Domain.Entities.Benaa;
 using Domain.Enums;
 using Mapster;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ namespace Application.Drawings.Dto
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<ConditionResult, ConditionResultDto>()
-                .Map(dest => dest.Status, src => src.Status.ToString())
+                .Map(dest => dest.Status, src => src.Status.GetAttribute<DescriptionAttribute>().Description)
                 .Map(dest => dest.Condition, src => src.CurrentCondition);
         }
     }

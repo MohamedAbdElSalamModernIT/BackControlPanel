@@ -10,6 +10,7 @@ namespace Infrastructure.Interfaces
     public class Parameter
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public string Value { get; set; }
     }
     public interface IXmlService
@@ -32,8 +33,9 @@ namespace Infrastructure.Interfaces
             var items = values.Select(v =>
             {
                 var name = v.Attribute("name").Value;
+                var description = v.Attribute("description") != null ? v.Attribute("description").Value : "";
                 var value = v.Value;
-                return new Parameter { Name = name, Value = value };
+                return new Parameter { Name = name, Description = description, Value = value };
             }).ToList();
 
             return items;

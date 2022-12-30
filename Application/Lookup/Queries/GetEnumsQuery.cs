@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Lookup.Dtos;
 using Domain.Enums;
 using System;
+using System.ComponentModel;
 
 namespace Application.Lookup.Queries
 {
@@ -31,16 +32,19 @@ namespace Application.Lookup.Queries
         {
 
             var drawingStatus = Enum.GetValues(typeof(DrawingStatus)).Cast<DrawingStatus>()
-                .Select(e => new Value((int)e, e.ToString())).ToList();
+                .Select(e => new Value((int)e, e.ToString(), e.GetAttribute<DescriptionAttribute>().Description)).ToList();
 
             var fileType = Enum.GetValues(typeof(FileType)).Cast<FileType>()
-                .Select(e => new Value((int)e, e.ToString())).ToList();
+                .Select(e => new Value((int)e, e.ToString(), e.GetAttribute<DescriptionAttribute>().Description)).ToList();
+
 
             var conditionStatus = Enum.GetValues(typeof(ConditionStatus)).Cast<ConditionStatus>()
-                .Select(e => new Value((int)e, e.ToString())).ToList();
+                 .Select(e => new Value((int)e, e.ToString(), e.GetAttribute<DescriptionAttribute>().Description)).ToList();
+
 
             var drawingType = Enum.GetValues(typeof(DrawingType)).Cast<DrawingType>()
-                .Select(e => new Value((int)e, e.ToString())).ToList();
+                 .Select(e => new Value((int)e, e.ToString(), e.GetAttribute<DescriptionAttribute>().Description)).ToList();
+
 
             return Result.Successed(new
             {
@@ -52,7 +56,7 @@ namespace Application.Lookup.Queries
 
         }
 
-        
+
 
     }
 

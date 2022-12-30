@@ -205,13 +205,17 @@ namespace Infrastructure
 
             var client = await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
             var id = "";
-            switch (client.Type)
+
+            switch (client?.UserType)
             {
                 case UserType.AmanaManager or UserType.Client:
                     id = client.AmanaId.ToString();
                     break;
                 case UserType.BaladiaEmployee:
                     id = client.BaladiaId.ToString();
+                    break;
+
+                default:
                     break;
             }
 
@@ -223,12 +227,12 @@ namespace Infrastructure
         new Claim(ClaimTypes.NameIdentifier, appUser.Id),
         new Claim("UserId", appUser.Id),
         new Claim("AmanId", id),
+        new Claim("UserType", client?.UserType.ToString()),
         //new Claim("allowedModules", appUser.AllowedModules.ToString()),
         new Claim("permissions", JsonConvert.SerializeObject(permissions)),
         new Claim("email", appUser.UserName),
         new Claim("fullName", appUser.FullName),
         new Claim("officeName", client.OfficeName),
-        new Claim("fullName", appUser.FullName),
         new Claim("role", JsonConvert.SerializeObject(appUser.UserRoles.Select(s => s.Role.Name))),
 
       };

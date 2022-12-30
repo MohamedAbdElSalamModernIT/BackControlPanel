@@ -1,3 +1,5 @@
+﻿using System.ComponentModel;
+
 namespace Domain.Enums
 {
     public enum SettingType
@@ -9,25 +11,39 @@ namespace Domain.Enums
 
     public enum FileType
     {
+        [Description("اوتو كاد")]
         Autocad,
+
+        [Description("ريفيت")]
         Revit,
     }
 
     public enum DrawingType
     {
+        [Description("إنشائي")]
         Structure,
+
+        [Description("معماري")]
         Architectural,
     }
     public enum DrawingStatus
     {
+        [Description("قيد المراجعة")]
         Pending,
+
+        [Description("تم القبول")]
         Submitted,
     }
 
     public enum ConditionStatus
     {
+        [Description("نجح")]
         Success,
+
+        [Description("فشل")]
         Fail,
+
+        [Description("أخرى")]
         Other,
     }
 }

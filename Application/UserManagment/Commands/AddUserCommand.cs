@@ -21,7 +21,7 @@ namespace Application.UserManagment.Commands
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Role { get; set; }
+        public string[] Roles { get; set; }
         public bool Active { get; set; }
         public UserType Type { get; set; }
         public int AmanId { get; set; }
@@ -61,7 +61,9 @@ namespace Application.UserManagment.Commands
                 if (!result.Succeeded)
                     throw new ApiException(ApiExceptionType.ValidationError, result.Errors.Select(e => new ErrorResult(e.Code, e.Description)).ToArray());
 
-                await _userManager.AddToRoleAsync(user, request.Role);
+
+                if (request.Roles.Length > 0)
+                    await _userManager.AddToRolesAsync(user, request.Roles);
 
                 var client = new Client()
                 {

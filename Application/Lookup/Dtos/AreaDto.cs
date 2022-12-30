@@ -20,7 +20,7 @@ namespace Application.Lookup.Dtos
         }
     }
 
-    public class InformationDto :BaseEntityAudit
+    public class InformationDto : BaseEntityAudit
     {
         public int ID { get; set; }
         public string Description
@@ -39,5 +39,5 @@ namespace Application.Lookup.Dtos
         }
     }
 
-    public record Value(int id, string Name);
+    public record Value(int id, string Name, string Description);
 }
