@@ -41,7 +41,6 @@ namespace Application.Drawings.Queries
 
             var bytes = excelService.GenerateExcell(logs);
 
-
             return Result.Successed(bytes);
         }
     }

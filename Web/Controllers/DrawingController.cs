@@ -49,12 +49,20 @@ namespace Web.Controllers.Catalog
         {
             var payload = await Mediator.Send(new GetLogsReaultsQuery { LogId = id });
 
-
             byte[] buffer = (byte[])payload.Payload;
 
-
             return File(buffer, "application/octet-stream", "ConditionsResult.xlsx");
+        }
+        
+        [HttpGet("file/{id}")]
+        [AllowAnonymous]
+        public async Task<FileContentResult> GetDrawingFile([FromRoute] string id)
+        {
+            var payload = await Mediator.Send(new GetDrawingFileQuery { DrawingId = id });
 
+            var file = (AppFile)payload.Payload;
+
+            return File(file.Bytes, "application/octet-stream", file.Name);
         }
     }
 }

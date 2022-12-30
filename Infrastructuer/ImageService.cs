@@ -30,9 +30,9 @@ namespace Infrastructure {
 
     public async Task<Image> SaveImageAsync(Image image, byte[] dtoFile) {
       try {
-        if (ValidateImageFormate(dtoFile, out string validationError) == false) {
-          throw new ApiException(ApiExceptionType.InvalidImage, validationError);
-        }
+        //if (ValidateImageFormate(dtoFile, out string validationError) == false) {
+        //  throw new ApiException(ApiExceptionType.InvalidImage, validationError);
+        //}
         if (_imgOption.SaveInDatabse)
           image.Data = dtoFile;
         else {

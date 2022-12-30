@@ -23,6 +23,9 @@ namespace Application.Drawings.Commands
         public int BaladiaId { get; set; }
         public int BuildingTypeId { get; set; }
         public string CustomerName { get; set; }
+        public string FileStr { get; set; }
+        public string Extension { get; set; }
+
 
     }
 
@@ -58,7 +61,14 @@ namespace Application.Drawings.Commands
         {
             var drwaing = request.Adapt<Drawing>();
             drwaing.ClientId = auditService.UserId;
-          
+
+            if (!string.IsNullOrEmpty(request.FileStr))
+            {
+                var bytes = Convert.FromBase64String(request.FileStr);
+                drwaing.File = bytes;
+                drwaing.Extension = request.Extension;
+            }
+
             await _context.CreateAsync(drwaing, cancellationToken);
             return Result.Successed(drwaing.Adapt<DrwaingPluginDto>());
         }

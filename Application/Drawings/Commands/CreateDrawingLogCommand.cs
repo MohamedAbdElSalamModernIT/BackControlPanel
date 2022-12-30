@@ -89,7 +89,6 @@ namespace Application.Drawings.Commands
                                     }
                                     return new ConditionResult
                                     {
-                                        LogId= drawingLog.Id,
                                         ConditionId = s.ConditionID,
                                         CurrentCondition = description,
                                         Status = request.ConditionResults.FirstOrDefault(e => e.ConditionId == s.ConditionID).Status

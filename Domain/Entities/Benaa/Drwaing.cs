@@ -27,7 +27,8 @@ namespace Domain.Entities.Benaa
         public int RequestNo { get; set; }
         public int BuildingTypeId { get; set; }
         public BuildingType BuildingType { get; set; }
-
+        public byte[] File { get; set; }
+        public string Extension { get; set; }
         public HashSet<DrawingLog> Logs { get; set; }
     }
 }
