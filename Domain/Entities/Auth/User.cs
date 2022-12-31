@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Identity;
 namespace Domain.Entities.Auth
 {
     //[Table("AspNetUsers")]
-    public class User : IdentityUser, IAudit, IDeleteEntity, IBaseEntity {
+    public class User : IdentityUser, IAudit, IDeleteEntity, IBaseEntity
+    {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get { return $"{FirstName} {LastName}"; } }
@@ -24,6 +25,7 @@ namespace Domain.Entities.Auth
         public SystemModule AllowedModules { get; set; }
         public string Permissions { get; set; }
         public bool Active { get; set; } = true;
+        public UserType UserType { get; set; }
         public HashSet<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
     }
 

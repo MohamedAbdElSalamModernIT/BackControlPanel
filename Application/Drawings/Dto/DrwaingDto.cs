@@ -26,6 +26,7 @@ namespace Application.Drawings.Dto
         public int RequestNo { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public bool HasFile { get; set; }
 
         public void Register(TypeAdapterConfig config)
         {
@@ -36,7 +37,7 @@ namespace Application.Drawings.Dto
                 .Map(dest => dest.DrawingType, src => src.DrawingType.GetAttribute<DescriptionAttribute>().Description)
                 .Map(dest => dest.Status, src => src.Status.GetAttribute<DescriptionAttribute>().Description)
                 .Map(dest => dest.FileType, src => src.FileType.GetAttribute<DescriptionAttribute>().Description)
-
+                .Map(dest => dest.HasFile, src => src.File != null)
             ;
         }
     }

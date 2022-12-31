@@ -20,6 +20,7 @@ namespace Application.Drawings.Queries
         public string OfficeName { get; set; }
         public int? BuildingTypeId { get; set; }
         public int? BaladiaId { get; set; }
+        public int? AmanaId { get; set; }
         public int? RequestNo{ get; set; }
         public DrawingStatus? Status { get; set; }
         public FileType? FileType { get; set; }
@@ -51,6 +52,11 @@ namespace Application.Drawings.Queries
 
             if (request.BuildingTypeId.HasValue)
                 query = query.Where(e => e.BuildingTypeId == request.BuildingTypeId.Value);
+
+            if (request.AmanaId.HasValue)
+            {
+                query = query.Where(e => e.Baladia.AmanaId == request.AmanaId);
+            }
 
             if (request.Status.HasValue)
                 query = query.Where(e => e.Status == request.Status.Value);

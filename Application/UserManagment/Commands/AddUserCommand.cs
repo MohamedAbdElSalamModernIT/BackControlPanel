@@ -23,8 +23,9 @@ namespace Application.UserManagment.Commands
         public string LastName { get; set; }
         public string[] Roles { get; set; }
         public bool Active { get; set; }
-        public UserType Type { get; set; }
-        public int AmanId { get; set; }
+        public UserType UserType { get; set; }
+        public int? AmanaId { get; set; }
+        public int? BaladiaId { get; set; }
         public string OfficeName { get; set; }
 
         class Handler : IRequestHandler<AddUserCommand, Result>
@@ -53,6 +54,7 @@ namespace Application.UserManagment.Commands
                     NormalizedEmail = request.UserName.ToUpper(),
                     FirstName = request.FirstName,
                     LastName = request.LastName,
+                    UserType = request.UserType,
                     Active = request.Active
                 };
 
@@ -65,24 +67,19 @@ namespace Application.UserManagment.Commands
                 if (request.Roles.Length > 0)
                     await _userManager.AddToRolesAsync(user, request.Roles);
 
-                var client = new Client()
+                if (request.UserType != UserType.Other)
                 {
-                    IdentityId = user.Id,
-                };
+                    var client = new Client()
+                    {
+                        IdentityId = user.Id,
+                    };
 
-                switch (request.Type)
-                {
-                    case UserType.AmanaManager or UserType.Client:
-                        client.AmanaId = request.AmanId;
-                        client.OfficeName = request.OfficeName;
-                        break;
-                    case UserType.BaladiaEmployee:
-                        client.BaladiaId = request.AmanId;
-                        break;
+                    client.AmanaId = request.AmanaId.HasValue ? request.AmanaId.Value : null;
+                    client.BaladiaId = request.BaladiaId.HasValue ? request.BaladiaId.Value : null;
+                    client.OfficeName = request.OfficeName;
+
+                    await context.tblClients.AddAsync(client);
                 }
-
-                await context.tblClients.AddAsync(client);
-
                 return Result.Successed(_mapper.Map<UserDto>(user));
 
             }

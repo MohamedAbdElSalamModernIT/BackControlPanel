@@ -73,27 +73,45 @@ namespace Application.Drawings.Commands
 
             var conditions = await _context.tblConditionsMap
                     .Include(e => e.Condition)
-                    .Where(e => e.AlBaladiaID == drawing.BaladiaId && e.BuildingTypeID == drawing.BaladiaId)
+                    .Where(e => e.AlBaladiaID == drawing.BaladiaId && e.BuildingTypeID == drawing.BuildingTypeId)
                     .ToListAsync();
 
             var drawingLog = request.Adapt<DrawingLog>();
 
-            var logResults = conditions
+            var logResults = request.ConditionResults
                                 .Select(s =>
                                 {
-                                    var parameters = xmlService.GetNodes(s.ParametersValues);
-                                    var description = s.Condition.Description;
+                                    var conditionMap = conditions.FirstOrDefault(e => e.ConditionID == s.ConditionId);
+
+                                    var parameters = xmlService.GetNodes(conditionMap.ParametersValues);
+                                    var description = conditionMap.Condition.Description;
                                     foreach (var item in parameters)
                                     {
                                         description = description.Replace(item.Name, item.Value);
                                     }
                                     return new ConditionResult
                                     {
-                                        ConditionId = s.ConditionID,
+                                        ConditionId = conditionMap.ConditionID,
                                         CurrentCondition = description,
-                                        Status = request.ConditionResults.FirstOrDefault(e => e.ConditionId == s.ConditionID).Status
+                                        Status = s.Status
                                     };
-                                }).ToHashSet();
+                                  }).ToHashSet();
+            //var logResults = conditions
+            //                    .Select(s =>
+            //                    {
+            //                        var parameters = xmlService.GetNodes(s.ParametersValues);
+            //                        var description = s.Condition.Description;
+            //                        foreach (var item in parameters)
+            //                        {
+            //                            description = description.Replace(item.Name, item.Value);
+            //                        }
+            //                        return new ConditionResult
+            //                        {
+            //                            ConditionId = s.ConditionID,
+            //                            CurrentCondition = description,
+            //                            Status = request.ConditionResults.FirstOrDefault(e => e.ConditionId == s.ConditionID).Status
+            //                        };
+            //                    }).ToHashSet();
 
             drawingLog.Results = logResults;
 

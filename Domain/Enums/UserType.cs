@@ -1,9 +1,22 @@
-﻿namespace Domain.Enums
+﻿using System.ComponentModel;
+
+namespace Domain.Enums
 {
     public enum UserType
     {
+        [Description("مسئول الأمانة")]
         AmanaManager,
+
+        [Description("مسئول البلدية")]
+        BaldiaManager,
+
+        [Description("موظف البلدية")]
         BaladiaEmployee,
-        Client
+
+        [Description("عميل")]
+        Client,
+
+        [Description("أخرى")]
+        Other,
     }
 }

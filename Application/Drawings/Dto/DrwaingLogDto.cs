@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Application.Drawings.Dto
 {
-    public class DrwaingLogDto: IRegister
+    public class DrwaingLogDto : IRegister
     {
         public string Id { get; set; }
         public int SuccessNo { get; set; }

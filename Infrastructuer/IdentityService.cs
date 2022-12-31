@@ -204,20 +204,18 @@ namespace Infrastructure
             var permissions = _permissionServices.GetPermissionListForUser(appUser);
 
             var client = await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
-            var id = "";
+            var amanId = "";
+            var BaladiaId = "";
+            var officeName = "";
 
-            switch (client?.UserType)
+            if(appUser?.UserType != UserType.Other)
             {
-                case UserType.AmanaManager or UserType.Client:
-                    id = client.AmanaId.ToString();
-                    break;
-                case UserType.BaladiaEmployee:
-                    id = client.BaladiaId.ToString();
-                    break;
-
-                default:
-                    break;
+                amanId = client.AmanaId.ToString() ?? "";
+                BaladiaId = client.BaladiaId.ToString() ?? "";
+                officeName = client.OfficeName ?? "";
             }
+
+
 
 
             var claims = new List<Claim> {
@@ -226,13 +224,14 @@ namespace Infrastructure
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         new Claim(ClaimTypes.NameIdentifier, appUser.Id),
         new Claim("UserId", appUser.Id),
-        new Claim("AmanId", id),
-        new Claim("UserType", client?.UserType.ToString()),
+        new Claim("AmanId", amanId),
+        new Claim("UserType", appUser.UserType.ToString()),
+        new Claim("BaladiaId", BaladiaId),
         //new Claim("allowedModules", appUser.AllowedModules.ToString()),
         new Claim("permissions", JsonConvert.SerializeObject(permissions)),
         new Claim("email", appUser.UserName),
         new Claim("fullName", appUser.FullName),
-        new Claim("officeName", client.OfficeName),
+        new Claim("officeName", officeName),
         new Claim("role", JsonConvert.SerializeObject(appUser.UserRoles.Select(s => s.Role.Name))),
 
       };

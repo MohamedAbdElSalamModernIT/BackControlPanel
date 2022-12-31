@@ -44,11 +44,15 @@ namespace Application.Lookup.Queries
 
             var drawingType = Enum.GetValues(typeof(DrawingType)).Cast<DrawingType>()
                  .Select(e => new Value((int)e, e.ToString(), e.GetAttribute<DescriptionAttribute>().Description)).ToList();
+            
+            var userType = Enum.GetValues(typeof(UserType)).Cast<UserType>()
+                 .Select(e => new Value((int)e, e.ToString(), e.GetAttribute<DescriptionAttribute>().Description)).ToList();
 
 
             return Result.Successed(new
             {
                 drawingStatus,
+                userType,
                 fileType,
                 conditionStatus,
                 drawingType

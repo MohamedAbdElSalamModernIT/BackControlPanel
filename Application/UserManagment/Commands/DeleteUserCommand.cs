@@ -30,7 +30,9 @@ namespace Application.UserManagment.Commands {
             if (user == null){
                 throw new ApiException(ApiExceptionType.NotFound);
             }
-            _context.AppUsers.Remove(user);
+            user.IsDeleted = true;
+
+            _context.AppUsers.Update(user);
             return Result.Successed(_mapper.Map<UserDto>(user));
         }
 

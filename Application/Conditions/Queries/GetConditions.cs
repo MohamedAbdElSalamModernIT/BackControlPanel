@@ -87,6 +87,7 @@ namespace Application.Conditions.Queries
              
 
                 var conditions = await query
+                .OrderByDescending(e => e.CreatedDate)
                 .ToPagedListAsync(request, cancellationToken);
 
                 var items = conditions.Items

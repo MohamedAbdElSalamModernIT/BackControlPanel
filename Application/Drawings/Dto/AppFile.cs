@@ -1,4 +1,4 @@
-﻿namespace Application.Drawings.Queries
+﻿namespace Application.Drawings.Dto
 {
     public record AppFile(byte[] Bytes, string Name);
 }

@@ -2,6 +2,7 @@
 using Application.Category.Commands;
 using Application.Category.Queries;
 using Application.Drawings.Commands;
+using Application.Drawings.Dto;
 using Application.Drawings.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,13 @@ namespace Web.Controllers.Catalog
             return ReturnResult(await Mediator.Send(request));
         }
 
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult> GetDrawingWithId([FromRoute] string id)
+        {
+            return ReturnResult(await Mediator.Send(new GetDrawingWithIdQuery { Id = id }));
+        }
+
         [HttpGet("excel/{id}")]
         [AllowAnonymous]
         public async Task<FileContentResult> ExportToExcel([FromRoute] string id)
@@ -53,7 +61,7 @@ namespace Web.Controllers.Catalog
 
             return File(buffer, "application/octet-stream", "ConditionsResult.xlsx");
         }
-        
+
         [HttpGet("file/{id}")]
         [AllowAnonymous]
         public async Task<FileContentResult> GetDrawingFile([FromRoute] string id)
