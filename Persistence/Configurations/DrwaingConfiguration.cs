@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Benaa;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.ValueGenerators;
 
@@ -16,7 +17,9 @@ namespace Persistence.Configurations
             .ValueGeneratedOnAdd();
             
             builder.Property(c => c.RequestNo)
-            .ValueGeneratedOnAdd();
+            .ValueGeneratedOnAdd()
+            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            ;
 
             builder.HasMany(e => e.Logs)
                 .WithOne(e=>e.Drwaing).HasForeignKey(e => e.DrwaingId);

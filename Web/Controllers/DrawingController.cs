@@ -50,6 +50,20 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(new GetDrawingWithIdQuery { Id = id }));
         }
+        
+        [HttpPut("edit-drawing")]
+
+        public async Task<ActionResult> DeleteDrawing(EditDrawingCommand request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
+        
+        [HttpDelete("{id}")]
+
+        public async Task<ActionResult> DeleteDrawing([FromRoute] string id)
+        {
+            return ReturnResult(await Mediator.Send(new DeleteDrawingCommand { Id = id }));
+        }
 
         [HttpGet("excel/{id}")]
         [AllowAnonymous]

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Interfaces;
 using Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Benaa
 {
-    public class Drawing : BaseEntityAudit
+    public class Drawing : BaseEntityAudit, IDeleteEntity
     {
         public string Id { get; set; }
-
         public FileType FileType { get; set; }
         public DrawingType DrawingType { get; set; }
         //public string FileLink { get; set; }
@@ -30,5 +30,8 @@ namespace Domain.Entities.Benaa
         public byte[] File { get; set; }
         public string Extension { get; set; }
         public HashSet<DrawingLog> Logs { get; set; }
+        public bool IsDeleted { get; set; }
+        public string DeletedBy { get; set; }
+        public DateTime? DeletedDate { get; set; }
     }
 }
