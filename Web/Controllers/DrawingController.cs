@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
+using Web.CustomAttributes;
 
 namespace Web.Controllers.Catalog
 {
@@ -22,7 +23,16 @@ namespace Web.Controllers.Catalog
         }
 
         [HttpPost("create-Log")]
+ 
         public async Task<ActionResult> CreateLog(CreateDrawingLogCommand request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
+        
+        [HttpPost("upload-file")]
+        [DisableRequestSizeLimit]
+        [DisableFormValueModelBinding]
+        public async Task<ActionResult> Uploadfile([FromForm] UploadfileCommand request)
         {
             return ReturnResult(await Mediator.Send(request));
         }

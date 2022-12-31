@@ -30,6 +30,7 @@ namespace Application.UserManagment.Queries
             public async Task<Result> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
             {
                 var user = await _context.AppUsers.Protected()
+                  
                   .Include(u => u.UserRoles)
                   .ThenInclude(ur => ur.Role)
                   .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
@@ -39,6 +40,7 @@ namespace Application.UserManagment.Queries
                .FirstOrDefaultAsync(u => u.IdentityId == request.Id, cancellationToken);
 
                 user.AmanaId = client?.AmanaId ?? null;
+                user.OfficeName = client?.OfficeName;
                 user.BaladiaId = client?.BaladiaId ?? null;
        
 

@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities.Auth;
+using Domain.Enums;
 
 namespace Domain.Entities.Benaa
 {

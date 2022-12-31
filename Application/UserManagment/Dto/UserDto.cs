@@ -24,6 +24,7 @@ namespace Application.UserManagment.Dto
         public string UpdatedBy { get; set; }
         public int? AmanaId { get; set; }
         public int? BaladiaId { get; set; }
+        public string OfficeName { get; set; }
 
         public void CreateMappings(Profile configuration)
         {

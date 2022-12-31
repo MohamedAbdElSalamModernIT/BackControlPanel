@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common;
 using Common.Attributes;
 using Common.Interfaces;
+using Domain.Entities.Benaa;
 using Domain.Entities.Notification;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
