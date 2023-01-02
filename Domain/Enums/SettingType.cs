@@ -33,6 +33,9 @@ namespace Domain.Enums
 
         [Description("تم القبول")]
         Submitted,
+        
+        [Description("مرفوض")]
+        Rejected,
     }
 
     public enum ConditionStatus

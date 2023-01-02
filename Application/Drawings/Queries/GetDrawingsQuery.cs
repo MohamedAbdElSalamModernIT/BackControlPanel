@@ -30,6 +30,7 @@ namespace Application.Drawings.Queries
         public async Task<Result> Handle(GetDrawingsQuery request, CancellationToken cancellationToken)
         {
             var drawings = await _context.tblDrawings
+                .Protected()
                 .Include(e => e.Baladia).ThenInclude(e=>e.Amana)
                 .Include(e => e.BuildingType)
                 .Where(e => e.ClientId == auditService.UserId)

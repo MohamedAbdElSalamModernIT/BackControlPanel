@@ -12,6 +12,7 @@ namespace Infrastructure.Interfaces
         public string Name { get; set; }
         public string Description { get; set; }
         public string Value { get; set; }
+        public bool Hide { get; set; }
     }
     public interface IXmlService
     {
@@ -34,9 +35,10 @@ namespace Infrastructure.Interfaces
             {
                 var name = v.Attribute("name").Value;
                 var description = v.Attribute("description") != null ? v.Attribute("description").Value : "";
+                var hide = v.Attribute("hide") != null;
                 var value = v.Value;
-                return new Parameter { Name = name, Description = description, Value = value };
-            }).ToList();
+                return new Parameter { Name = name, Description = description, Value = value, Hide = hide };
+            }).Where(e => !e.Hide).ToList();
 
             return items;
         }
