@@ -59,11 +59,13 @@ namespace Application.Drawings.Commands
     {
         private readonly IAppDbContext _context;
         private readonly IXmlService xmlService;
+        private readonly IAuditService auditService;
 
-        public CreateDrawingLogHandler(IAppDbContext context, IXmlService xmlService)
+        public CreateDrawingLogHandler(IAppDbContext context, IXmlService xmlService,IAuditService auditService)
         {
             _context = context;
             this.xmlService = xmlService;
+            this.auditService = auditService;
         }
 
         public async Task<Result> Handle(CreateDrawingLogCommand request, CancellationToken cancellationToken)
@@ -117,6 +119,8 @@ namespace Application.Drawings.Commands
 
             await _context.CreateAsync(drawingLog, cancellationToken);
 
+            drawing.UpdatedDate = DateTime.UtcNow;
+            drawing.UpdatedBy = auditService.UserName;
              _context.tblDrawings.Update(drawing);
 
             return Result.Successed(drawingLog.Adapt<DrwaingPluginDto>());

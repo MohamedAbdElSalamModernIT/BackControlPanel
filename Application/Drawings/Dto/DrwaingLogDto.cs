@@ -14,8 +14,9 @@ namespace Application.Drawings.Dto
         public int FailNo { get; set; }
         public int OtherNo { get; set; }
         public string Result { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+  
 
         public void Register(TypeAdapterConfig config)
         {

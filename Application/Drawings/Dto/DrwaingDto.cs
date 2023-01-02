@@ -24,8 +24,10 @@ namespace Application.Drawings.Dto
         public string Baladia { get; set; }
         public string BuildingType { get; set; }
         public int RequestNo { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         public bool HasFile { get; set; }
 
         public void Register(TypeAdapterConfig config)
