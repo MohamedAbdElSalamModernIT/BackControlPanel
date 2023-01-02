@@ -54,8 +54,10 @@ namespace Application.Drawings.Commands
             if (drwaing == null) return Result.Failure(ApiExceptionType.NotFound);
 
             drwaing.Status = request.Status;
+            drwaing.UpdatedDate = DateTime.UtcNow;
+            drwaing.UpdatedBy = auditService.UserName;
 
-             _context.tblDrawings.Update(drwaing);
+            _context.tblDrawings.Update(drwaing);
             return Result.Successed(drwaing.Adapt<DrwaingPluginDto>());
         }
     }

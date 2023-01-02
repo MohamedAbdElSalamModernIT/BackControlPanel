@@ -119,9 +119,7 @@ namespace Application.Drawings.Commands
 
             await _context.CreateAsync(drawingLog, cancellationToken);
 
-            drawing.UpdatedDate = DateTime.UtcNow;
-            drawing.UpdatedBy = auditService.UserName;
-             _context.tblDrawings.Update(drawing);
+            
 
             return Result.Successed(drawingLog.Adapt<DrwaingPluginDto>());
         }
