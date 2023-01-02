@@ -117,6 +117,8 @@ namespace Application.Drawings.Commands
 
             await _context.CreateAsync(drawingLog, cancellationToken);
 
+             _context.tblDrawings.Update(drawing);
+
             return Result.Successed(drawingLog.Adapt<DrwaingPluginDto>());
         }
     }

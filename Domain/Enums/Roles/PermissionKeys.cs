@@ -85,6 +85,8 @@ namespace Domain.Enums.Roles {
         //Drawings Module Permissions
         [DescribePermission(SystemModule.Drawings, "read_drawings", "read_drawings", "Drawings")]
         ReadDrawings,
+         [DescribePermission(SystemModule.Drawings, "submit_drawings", "submit_drawings", "Drawings")]
+        SubmitDrawings,
 
 
 
