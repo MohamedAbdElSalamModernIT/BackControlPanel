@@ -63,7 +63,14 @@ namespace Web.Controllers.Catalog
         
         [HttpPut("edit-drawing")]
 
-        public async Task<ActionResult> DeleteDrawing(EditDrawingCommand request)
+        public async Task<ActionResult> EditDrawing(EditDrawingCommand request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
+
+        [HttpPut("finish-drawing")]
+
+        public async Task<ActionResult> FinishDrawing(FinishDrawingCommand request)
         {
             return ReturnResult(await Mediator.Send(request));
         }
