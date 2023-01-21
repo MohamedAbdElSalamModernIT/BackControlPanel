@@ -30,7 +30,7 @@ namespace Application.Drawings.Commands
         private readonly IAppDbContext _context;
         private readonly IAuditService auditService;
 
-        public DeleteDrawingHndler(IAppDbContext context,IAuditService auditService)
+        public DeleteDrawingHndler(IAppDbContext context, IAuditService auditService)
         {
             _context = context;
             this.auditService = auditService;
@@ -42,12 +42,8 @@ namespace Application.Drawings.Commands
 
             if (drawing == null) return Result.Failure(ApiExceptionType.NotFound);
 
-            drawing.DeletedBy = auditService.UserName;
-            drawing.DeletedDate = DateTime.UtcNow;
-            drawing.IsDeleted = true;
-
-            _context.tblDrawings.Update(drawing);
-            return Result.Successed(new {Id = request.Id }, ApiExceptionType.Ok);
+            _context.Remove(drawing);
+            return Result.Successed(new { Id = request.Id }, ApiExceptionType.Ok);
         }
     }
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Domain.Entities.Benaa
 {
-    public class Condition: BaseEntityAudit
+    public class Condition : BaseEntityAudit
     {
         public double ID { get; set; }
         public string Description { get; set; }
         public string Rules { get; set; }
         public string Facts { get; set; }
-        public int? PlaceID { get; set; } 
+        public int? PlaceID { get; set; }
 
         public int VersionId { get; set; }
         public Version Version { get; set; }

@@ -203,18 +203,16 @@ namespace Infrastructure
         {
             var permissions = _permissionServices.GetPermissionListForUser(appUser);
 
-            var client = await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == appUser.Id);
-            var amanId = "";
-            var BaladiaId = "";
-            var officeName = "";
+            var client = await _context.AppUsers
+                .Include(e => e.Office)
+                .FirstOrDefaultAsync(e => e.Id == appUser.Id);
 
-            if(appUser?.UserType != UserType.Other)
-            {
-                amanId = client.AmanaId.ToString() ?? "";
-                BaladiaId = client.BaladiaId.ToString() ?? "";
-                officeName = client.OfficeName ?? "";
-            }
-
+            var amanId = client?.AmanaId.ToString() ?? "";
+            var BaladiaId = client?.BaladiaId.ToString() ?? "";
+            var officeName = client?.Office?.Name ?? "";
+            var officeId = client?.Office?.Id ?? "";
+            int userType = (int)client?.UserType;
+            string userTypeStr = $"{userType}";
 
 
 
@@ -225,13 +223,14 @@ namespace Infrastructure
         new Claim(ClaimTypes.NameIdentifier, appUser.Id),
         new Claim("UserId", appUser.Id),
         new Claim("AmanId", amanId),
-        new Claim("UserType", appUser.UserType.ToString()),
         new Claim("BaladiaId", BaladiaId),
+        new Claim("UserType", userTypeStr),
         //new Claim("allowedModules", appUser.AllowedModules.ToString()),
         new Claim("permissions", JsonConvert.SerializeObject(permissions)),
         new Claim("email", appUser.UserName),
         new Claim("fullName", appUser.FullName),
         new Claim("officeName", officeName),
+        new Claim("officeId", officeId),
         new Claim("role", JsonConvert.SerializeObject(appUser.UserRoles.Select(s => s.Role.Name))),
 
       };

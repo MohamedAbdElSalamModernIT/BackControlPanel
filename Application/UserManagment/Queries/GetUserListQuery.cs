@@ -19,46 +19,56 @@ namespace Application.UserManagment.Queries
     {
         public string FullName { get; set; }
         public string Username { get; set; }
-        public int BaladyaId { get; set; } = 0;
+        public int BaladiaId { get; set; } = 0;
         public int AmanaId { get; set; } = 0;
+        public string OfficeId { get; set; }
         class Handler : IRequestHandler<GetUserListQuery, Result>
         {
             private readonly IAppDbContext _context;
             private readonly IMapper _mapper;
+            private readonly IAuditService auditService;
 
-            public Handler(IAppDbContext context, IMapper mapper)
+            public Handler(IAppDbContext context, IMapper mapper, IAuditService auditService)
             {
                 _context = context;
                 _mapper = mapper;
+                this.auditService = auditService;
             }
 
             public async Task<Result> Handle(GetUserListQuery request, CancellationToken cancellationToken)
             {
                 var query = _context.AppUsers
-                    .Protected()
                     .Include(e => e.UserRoles)
-                    .ThenInclude(e => e.Role).AsQueryable();
+                    .ThenInclude(e => e.Role)
+                    .Protected()
+                    .AsQueryable();
 
-                //if (request.BaladyaId != 0)
-                //{
-                //    query = query.Where(e => e.AlBaladiaID == request.BaladyaId);
-                //}
-                //if (request.AmanaId != 0)
-                //{
-                //    query = query.Where(e => e.Baladia.AmanaId == request.AmanaId);
-                //}
+                int initailAmanaId = !string.IsNullOrEmpty(auditService.AmanaId) ? int.Parse(auditService.AmanaId) : request.AmanaId;
+                int initailBaladiaId = !string.IsNullOrEmpty(auditService.BaladiaId) ? int.Parse(auditService.BaladiaId) : request.BaladiaId;
+                var initailOfficeId = !string.IsNullOrEmpty(auditService.OfficeId) ? auditService.OfficeId : request.OfficeId;
+
+
+
+                if (initailAmanaId != 0)
+                    query = query.Where(e => e.AmanaId == initailAmanaId);
+
+                if (initailBaladiaId != 0)
+                    query = query.Where(e => e.BaladiaId == initailBaladiaId);
+
+                if (!string.IsNullOrEmpty(initailOfficeId))
+                    query = query.Where(e => e.OfficeId == initailOfficeId);
+
 
                 if (!string.IsNullOrEmpty(request.FullName))
-                    query = query.Where(e => e.FirstName.Contains(request.FullName));
-                
-                if (!string.IsNullOrEmpty(request.FullName))
-                    query = query.Where(e => e.LastName.Contains(request.FullName));
-                
+                    query = query.Where(e => e.FirstName.Contains(request.FullName) || e.LastName.Contains(request.FullName));
+
                 if (!string.IsNullOrEmpty(request.Username))
                     query = query.Where(e => e.UserName.Contains(request.Username));
 
+
                 var users = await query.ProjectToType<UserDto>()
-                    .OrderByDescending(e=>e.CreatedDate)
+                    .Where(e=>e.Id != auditService.UserId)
+                    .OrderByDescending(e => e.CreatedDate)
                  .ToPagedListAsync(request, cancellationToken);
 
                 return Result.Successed(users);

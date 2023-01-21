@@ -14,6 +14,12 @@ namespace Web.Controllers.Catalog
     public class LookupController : BaseController
     {
 
+        [HttpGet("engineers")]
+        public async Task<ActionResult> GetWithPagination([FromQuery] GetEngineersQuery request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
+
         [HttpGet("information")]
         public async Task<ActionResult> GetWithPagination([FromQuery] GetInformationQuery request)
         {

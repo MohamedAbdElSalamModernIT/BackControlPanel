@@ -3,6 +3,7 @@ using AutoMapper;
 using Common.Interfaces;
 using Infrastructure;
 using Infrastructure.Interfaces;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
@@ -26,6 +27,7 @@ namespace Web.Extensions {
               .AddScoped<IUrlHelper, UrlHelper>()
               .AddScoped<IXmlService, XmlService>()
               .AddScoped<IExcelService, ExcelService>()
+              .AddScoped<IFileService, Infrastructure.FileService>()
               .AddSingleton<ISettingService, SettingService>();
 
             ;

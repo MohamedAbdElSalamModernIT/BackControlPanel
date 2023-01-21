@@ -28,6 +28,7 @@ namespace Application.UserManagment.Commands
         public int? AmanaId { get; set; }
         public int? BaladiaId { get; set; }
         public string OfficeName { get; set; }
+        public string OfficeId { get; set; }
     }
 
     public class EditUserCommandHandler : IRequestHandler<EditUserCommand, Result>
@@ -53,7 +54,9 @@ namespace Application.UserManagment.Commands
             user.LastName = request.LastName;
             user.Active = request.Active;
             user.UserType = request.UserType;
-
+            user.OfficeId= request.OfficeId;
+            user.AmanaId = request.AmanaId.HasValue ? request.AmanaId.Value : null;
+            user.BaladiaId = request.BaladiaId.HasValue ? request.BaladiaId.Value : null;
 
 
             if (!String.IsNullOrEmpty(request.Password))
@@ -72,19 +75,7 @@ namespace Application.UserManagment.Commands
             if (request.Roles.Length > 0)
                 await _userManager.AddToRolesAsync(user, request.Roles);
 
-            if (request.UserType != UserType.Other)
-            {
-                var existedClient = await _context.tblClients.FirstOrDefaultAsync(e => e.IdentityId == request.Id);
-                if (existedClient != null) _context.tblClients.Remove(existedClient);
-
-                var client = new Client();
-                client.IdentityId = request.Id;
-                client.AmanaId = request.AmanaId.HasValue ? request.AmanaId.Value : null;
-                client.BaladiaId = request.BaladiaId.HasValue ? request.BaladiaId.Value : null;
-                client.OfficeName = request.OfficeName;
-
-                await _context.tblClients.AddAsync(client);
-            }
+            
 
             _context.AppUsers.Update(user);
             return Result.Successed(_mapper.Map<UserDto>(user));

@@ -60,6 +60,7 @@ namespace Infrastructure
         public string UserType => _httpContext.HttpContext?.User?.FindFirstValue("userType") ?? string.Empty;
         public string BaladiaId => _httpContext.HttpContext?.User?.FindFirstValue("BaladiaId") ?? string.Empty;
         public string AmanaId => _httpContext.HttpContext?.User?.FindFirstValue("AmanId") ?? string.Empty;
+        public string OfficeId => _httpContext.HttpContext?.User?.FindFirstValue("OfficeId") ?? string.Empty;
 
         public string RequesterIp => _httpContext.HttpContext.Connection.RemoteIpAddress.ToString();
 

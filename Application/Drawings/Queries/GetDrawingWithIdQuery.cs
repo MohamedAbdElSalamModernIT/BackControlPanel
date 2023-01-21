@@ -30,12 +30,8 @@ namespace Application.Drawings.Queries
             public async Task<Result> Handle(GetDrawingWithIdQuery request, CancellationToken cancellationToken)
             {
                 var drawing =await _context.tblDrawings
-               .Include(e => e.Baladia)
-               .Include(e => e.BuildingType)
-               .Include(e => e.Client)
                .ProjectToType<DrwaingDto>()
                .FirstOrDefaultAsync(e => e.Id == request.Id);
-
 
                 return Result.Successed(drawing);
             }

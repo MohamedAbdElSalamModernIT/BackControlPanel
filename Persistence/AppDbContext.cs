@@ -42,10 +42,10 @@ namespace Persistence
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Category> tblCategories { get; set; }
         public DbSet<Drawing> tblDrawings { get; set; }
-        
+        public DbSet<Office> tblOffices { get; set; }
         public DbSet<DrawingLog> tblDrawingLogs { get; set; }
+        public DbSet<AppFile> AppFiles { get; set; }
         public DbSet<ConditionResult> tblConditionResults { get; set; }
-        public DbSet<Client> tblClients { get; set; }
 
         #endregion
 
@@ -192,7 +192,7 @@ namespace Persistence
             return base.Update(entity);
         }
 
-        public override EntityEntry Remove(object entity)
+        public  EntityEntry Remove(object entity)
         {
             if (entity is IDeleteEntity audit)
             {
@@ -201,6 +201,7 @@ namespace Persistence
                 audit.IsDeleted = true;
                 return Update(entity);
             }
+
             return base.Remove(entity);
         }
         public override EntityEntry<TEntity> Remove<TEntity>(TEntity entity)

@@ -35,12 +35,12 @@ namespace Application.Drawings.Queries
         {
 
             var drawing = await _context.tblDrawings
-                .Include(e => e.Client)
+                .Include(e => e.Engineer)
                 .FirstOrDefaultAsync(e => e.Id == request.DrawingId);
 
             var bytes = excelService.GenerateExcell(drawing.File);
 
-            return Result.Successed(new AppFile(bytes, drawing.Client.OfficeName + drawing.Extension));
+            return Result.Successed(new AppFile(bytes, drawing.Office.Name + drawing.Extension));
         }
 
     }

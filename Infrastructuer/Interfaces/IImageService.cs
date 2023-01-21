@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Interfaces {
   public interface IImageService {
+    Task<FileDto> SaveImageAsync(FileDto file);
     Task<Image> SaveImageAsync(Image image, byte[] dtoFile);
     Task<Image> SaveImageAsync(Image image, string dtoFile);
     Task<Image> SaveImageAsync(Image image, IFormFile dtoFile);

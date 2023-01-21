@@ -15,6 +15,7 @@ namespace Infrastructure.Interfaces
         DbSet<T> Set<T>() where T : class;
         ValueTask<EntityEntry<T>> CreateAsync<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity;
         EntityEntry<TEntity> Edit<TEntity>(TEntity entity) where TEntity : class;
+        EntityEntry<TEntity> Remove<TEntity>(TEntity entity) where TEntity : class;
 
         DbSet<Place> tblPlaces { get; set; }
         DbSet<Domain.Entities.Benaa.Version> tblVersions { get; set; }
@@ -32,7 +33,9 @@ namespace Infrastructure.Interfaces
         DbSet<Drawing> tblDrawings { get; set; }
         DbSet<DrawingLog> tblDrawingLogs { get; set; }
         DbSet<ConditionResult> tblConditionResults { get; set; }
-        DbSet<Client> tblClients { get; set; }
+        DbSet<Office> tblOffices { get; set; }
+        DbSet<AppFile> AppFiles { get; set; }
+
 
         DbSet<RefreshToken> RefreshToken { get; set; }
         Task<int> SaveChangesAsync();

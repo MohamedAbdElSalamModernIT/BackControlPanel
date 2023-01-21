@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FileService.Middlewares;
+using Microsoft.AspNetCore.Builder;
 using Web.Middleware;
 
 namespace Web.Extensions {
   public static partial class ApplicationBuilderExtensions {
     public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder application) {
-      return application.UseMiddleware<ApiExceptionHandlerMiddleware>();
+      return application.UseMiddleware<ApiExceptionHandlerMiddleware>()
+                .UseMiddleware<ImageProxyMiddleware>();
     }
   }
 }

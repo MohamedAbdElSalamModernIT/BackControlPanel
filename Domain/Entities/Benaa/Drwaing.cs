@@ -19,14 +19,27 @@ namespace Domain.Entities.Benaa
 
         public string CustomerName { get; set; }
 
-        public string ClientId { get; set; }
-        public Client Client { get; set; }
+        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.NotAssigned;
+        public DateTime? PlannedStartDate { get; set; }
+        public DateTime? PlannedEndDate { get; set; }
+        public DateTime? ActualStartDate { get; set; }
+        public DateTime? ActualEndDate { get; set; }
+        public string Comments { get; set; }
+
+        public string OfficeId { get; set; }
+        public Office Office { get; set; }
+
+        public string EngineerId { get; set; }
+        public AppUser Engineer { get; set; }
 
         public int BaladiaId { get; set; }
         public Baladia Baladia { get; set; }
+
         public int RequestNo { get; set; }
         public int BuildingTypeId { get; set; }
+
         public BuildingType BuildingType { get; set; }
+
         public byte[] File { get; set; }
         public string Extension { get; set; }
         public HashSet<DrawingLog> Logs { get; set; }

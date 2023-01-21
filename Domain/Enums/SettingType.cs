@@ -33,9 +33,23 @@ namespace Domain.Enums
 
         [Description("تم القبول")]
         Submitted,
-        
+
         [Description("مرفوض")]
         Rejected,
+    }
+    public enum OfficeDrawingStatus
+    {
+        [Description("لم يتم تخصيصه")]
+        NotAssigned,
+
+        [Description("تم تخصيصه")]
+        Assigned,
+
+        [Description("مغلق")]
+        Closed,
+
+        [Description("قيد التنفيذ")]
+        InProgress,
     }
 
     public enum ConditionStatus

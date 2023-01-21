@@ -17,18 +17,24 @@ namespace Web.Controllers.Catalog
     public class DrawingController : BaseController
     {
         [HttpPost("create-drawing")]
-        public async Task<ActionResult> Create(CreateDrawingCommand request)
+        public async Task<ActionResult> Create(CreateDrawingAdminCommand request)
         {
             return ReturnResult(await Mediator.Send(request));
         }
 
+        //[HttpPost("admin-create-drawing")]
+        //public async Task<ActionResult> Create(CreateDrawingAdminCommand request)
+        //{
+        //    return ReturnResult(await Mediator.Send(request));
+        //}
+
         [HttpPost("create-Log")]
- 
+
         public async Task<ActionResult> CreateLog(CreateDrawingLogCommand request)
         {
             return ReturnResult(await Mediator.Send(request));
         }
-        
+
         [HttpPost("upload-file")]
         [DisableRequestSizeLimit]
         [DisableFormValueModelBinding]
@@ -60,10 +66,22 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(new GetDrawingWithIdQuery { Id = id }));
         }
-        
-        [HttpPut("edit-drawing")]
 
+        [HttpGet("details/{id}")]
+
+        public async Task<ActionResult> GetDrawingDetailsWithId([FromRoute] string id)
+        {
+            return ReturnResult(await Mediator.Send(new GetDrawingDetailsWithIdQuery { Id = id }));
+        }
+
+        [HttpPut("edit-drawing")]
         public async Task<ActionResult> EditDrawing(EditDrawingCommand request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
+
+        [HttpPut("edit-status")]
+        public async Task<ActionResult> EditDrawingStatus(EditDrawingStatusCommand request)
         {
             return ReturnResult(await Mediator.Send(request));
         }
@@ -74,7 +92,7 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(request));
         }
-        
+
         [HttpDelete("{id}")]
 
         public async Task<ActionResult> DeleteDrawing([FromRoute] string id)

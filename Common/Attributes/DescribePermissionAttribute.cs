@@ -43,5 +43,8 @@ namespace Common.Attributes
 
         [EnumMember(Value = "drawings")]
         Drawings,
+
+        [EnumMember(Value = "offices")]
+        Offices,
     }
 }

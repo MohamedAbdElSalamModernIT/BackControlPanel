@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Application.Drawings.Dto;
+using Domain.Enums;
 
 namespace Application.Drawings.Queries
 {
@@ -29,11 +30,23 @@ namespace Application.Drawings.Queries
 
         public async Task<Result> Handle(GetDrawingsQuery request, CancellationToken cancellationToken)
         {
-            var drawings = await _context.tblDrawings
+
+            var query = _context.tblDrawings
                 .Protected()
-                .Include(e => e.Baladia).ThenInclude(e=>e.Amana)
+                .Include(e => e.Baladia).ThenInclude(e => e.Amana)
                 .Include(e => e.BuildingType)
-                .Where(e => e.ClientId == auditService.UserId)
+                .Include(e => e.Engineer)
+                .Include(e => e.Office)               
+                .AsQueryable();
+
+            var userType = (UserType)int.Parse(auditService.UserType);
+
+            if (userType == UserType.Engineer)
+                query = query.Where(e => e.EngineerId == auditService.UserId);
+            else
+                query = query.Where(e => e.OfficeId == auditService.OfficeId);
+
+            var drawings = await query
                 .ProjectToType<DrwaingPluginDto>()
                 .ToListAsync(cancellationToken);
 

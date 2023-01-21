@@ -39,5 +39,8 @@ namespace Application.Lookup.Dtos
         }
     }
 
-    public record Value(int id, string Name, string Description);
+    public record Value(int id,
+        string Name,
+        string Description,
+        int[] Values = default);
 }

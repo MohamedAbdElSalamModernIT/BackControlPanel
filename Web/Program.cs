@@ -18,7 +18,7 @@ namespace Web {
             Log.Logger = new LoggerConfiguration()
               .ReadFrom.Configuration(config)
               .Enrich.FromLogContext()
-              .Enrich.WithProperty("ApplicationName", "ROI-App")
+              .Enrich.WithProperty("ApplicationName", "Baladia App")
               .Enrich.WithProcessId()
               //.Enrich.WithEnvironmentUserName()
               .CreateLogger();

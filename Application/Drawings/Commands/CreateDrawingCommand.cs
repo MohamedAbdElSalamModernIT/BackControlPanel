@@ -20,12 +20,16 @@ namespace Application.Drawings.Commands
     {
         public FileType FileType { get; set; }
         public DrawingType DrawingType { get; set; }
-        public int BaladiaId { get; set; }
+        public DateTime? PlannedStartDate { get; set; }
+        public DateTime? PlannedEndDate { get; set; }
+        public DateTime? ActualStartDate { get; set; }
+        public DateTime? ActualEndDate { get; set; }
+        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.Assigned;
         public int BuildingTypeId { get; set; }
+        public int BaladiaId { get; set; }
         public string CustomerName { get; set; }
-        public string FileStr { get; set; }
-        public string Extension { get; set; }
-
+        //public string FileStr { get; set; }
+        //public string Extension { get; set; }
 
     }
 
@@ -60,14 +64,16 @@ namespace Application.Drawings.Commands
         public async Task<Result> Handle(CreateDrawingCommand request, CancellationToken cancellationToken)
         {
             var drwaing = request.Adapt<Drawing>();
-            drwaing.ClientId = auditService.UserId;
 
-            if (!string.IsNullOrEmpty(request.FileStr))
-            {
-                var bytes = Convert.FromBase64String(request.FileStr);
-                drwaing.File = bytes;
-                drwaing.Extension = request.Extension;
-            }
+            drwaing.OfficeId = auditService.OfficeId;
+            drwaing.EngineerId = auditService.UserId;
+
+            //if (!string.IsNullOrEmpty(request.FileStr))
+            //{
+            //    var bytes = Convert.FromBase64String(request.FileStr);
+            //    drwaing.File = bytes;
+            //    drwaing.Extension = request.Extension;
+            //}
 
             await _context.CreateAsync(drwaing, cancellationToken);
             return Result.Successed(drwaing.Adapt<DrwaingPluginDto>());

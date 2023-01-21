@@ -12,6 +12,7 @@ using Domain.Enums;
 using Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.UserManagment.Commands
 {
@@ -22,11 +23,11 @@ namespace Application.UserManagment.Commands
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string[] Roles { get; set; }
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
         public UserType UserType { get; set; }
         public int? AmanaId { get; set; }
         public int? BaladiaId { get; set; }
-        public string OfficeName { get; set; }
+
 
         class Handler : IRequestHandler<AddUserCommand, Result>
         {
@@ -35,10 +36,12 @@ namespace Application.UserManagment.Commands
             private readonly IImageService _imageService;
             private readonly IAppDbContext context;
             private readonly UserManager<User> _userManager;
+            private readonly IAuditService auditService;
 
-            public Handler(UserManager<User> userManager, IMapper mapper, IImageService imageService, IAppDbContext context)
+            public Handler(UserManager<User> userManager, IAuditService auditService, IMapper mapper, IImageService imageService, IAppDbContext context)
             {
                 _userManager = userManager;
+                this.auditService = auditService;
                 _mapper = mapper;
                 _imageService = imageService;
                 this.context = context;
@@ -58,6 +61,16 @@ namespace Application.UserManagment.Commands
                     Active = request.Active
                 };
 
+
+
+                var initailOfficeId = !string.IsNullOrEmpty(auditService.OfficeId) ? auditService.OfficeId : null;
+                int? initailAmanaId = !string.IsNullOrEmpty(auditService.AmanaId) ? int.Parse(auditService.AmanaId) : null;
+                int? initailBaladiaId = !string.IsNullOrEmpty(auditService.BaladiaId) ? int.Parse(auditService.BaladiaId) : null;
+
+                user.OfficeId = initailOfficeId;
+                user.AmanaId = request.AmanaId.HasValue ? request.AmanaId.Value : initailAmanaId;
+                user.BaladiaId = request.BaladiaId.HasValue ? request.BaladiaId.Value : initailBaladiaId;
+
                 var result = await _userManager.CreateAsync(user, request.Password);
 
                 if (!result.Succeeded)
@@ -67,19 +80,6 @@ namespace Application.UserManagment.Commands
                 if (request.Roles.Length > 0)
                     await _userManager.AddToRolesAsync(user, request.Roles);
 
-                if (request.UserType != UserType.Other)
-                {
-                    var client = new Client()
-                    {
-                        IdentityId = user.Id,
-                    };
-
-                    client.AmanaId = request.AmanaId.HasValue ? request.AmanaId.Value : null;
-                    client.BaladiaId = request.BaladiaId.HasValue ? request.BaladiaId.Value : null;
-                    client.OfficeName = request.OfficeName;
-
-                    await context.tblClients.AddAsync(client);
-                }
                 return Result.Successed(_mapper.Map<UserDto>(user));
 
             }

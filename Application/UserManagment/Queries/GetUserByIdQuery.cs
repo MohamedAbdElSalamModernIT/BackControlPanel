@@ -31,17 +31,15 @@ namespace Application.UserManagment.Queries
             {
                 var user = await _context.AppUsers.Protected()
                   
+                  .Include(u => u.Office)
                   .Include(u => u.UserRoles)
                   .ThenInclude(ur => ur.Role)
                   .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
                   .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-                var client = await _context.tblClients
-               .FirstOrDefaultAsync(u => u.IdentityId == request.Id, cancellationToken);
+             
 
-                user.AmanaId = client?.AmanaId ?? null;
-                user.OfficeName = client?.OfficeName;
-                user.BaladiaId = client?.BaladiaId ?? null;
+           
        
 
 

@@ -23,14 +23,14 @@ namespace Application.Drawings.Commands
         public FileType FileType { get; set; }
         public DrawingType DrawingType { get; set; }
         public int BaladiaId { get; set; }
+        public string EngineerId { get; set; }
         public int BuildingTypeId { get; set; }
         public string CustomerName { get; set; }
-        public string FileStr { get; set; }
-        public string Extension { get; set; }
+        public DateTime PlannedStartDate { get; set; }
+        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.Assigned;
 
         public void Register(TypeAdapterConfig config)
         {
-
             config.NewConfig<EditDrawingCommand, Drawing>()
                 .Ignore(dest => dest.Extension);
         }
@@ -40,8 +40,17 @@ namespace Application.Drawings.Commands
     {
         public EditDrawingCommandValidator()
         {
+            RuleFor(r => r.Id).NotNull()
+                  .WithMessage("Id is Required");
+
             RuleFor(r => r.FileType).NotNull()
                   .WithMessage("FileType is Required");
+
+            RuleFor(r => r.PlannedStartDate).NotNull().NotEmpty()
+                  .WithMessage("PlannedStartDate is Required");
+
+            RuleFor(r => r.CustomerName).NotNull()
+                  .WithMessage("CustomerName is Required");
 
             RuleFor(r => r.DrawingType).NotNull()
                   .WithMessage("DrawingType is Required");
@@ -73,16 +82,13 @@ namespace Application.Drawings.Commands
 
             var updatedDrwaing = request.Adapt(drwaing);
 
-        
-
-            if (!string.IsNullOrEmpty(request.FileStr))
+            if (string.IsNullOrEmpty(request.EngineerId))
             {
-                var bytes = Convert.FromBase64String(request.FileStr);
-                updatedDrwaing.File = bytes;
-                updatedDrwaing.Extension = request.Extension;
+                drwaing.EngineerId = null;
+                drwaing.OfficeStatus = OfficeDrawingStatus.NotAssigned;
             }
 
-             _context.tblDrawings.Update(updatedDrwaing);
+            _context.Edit(updatedDrwaing);
             return Result.Successed(drwaing.Adapt<DrwaingPluginDto>());
         }
     }
