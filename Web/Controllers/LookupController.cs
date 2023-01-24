@@ -19,6 +19,12 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(request));
         }
+        
+        [HttpGet("office-managers")]
+        public async Task<ActionResult> GetOfficeManagersQuery([FromQuery] GetOfficeManagersQuery request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
 
         [HttpGet("information")]
         public async Task<ActionResult> GetWithPagination([FromQuery] GetInformationQuery request)
