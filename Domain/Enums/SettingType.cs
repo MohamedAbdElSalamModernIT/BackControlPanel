@@ -42,8 +42,8 @@ namespace Domain.Enums
         [Description("لم يتم تخصيصه")]
         NotAssigned,
 
-        [Description("تم تخصيصه")]
-        Assigned,
+        [Description("قيد الإنتظار")]
+        OnHold,
 
         [Description("مغلق")]
         Closed,
