@@ -38,7 +38,7 @@ namespace Application.Office.Queries
                .Include(e => e.Owner).Include(e => e.Amana)
                 .AsQueryable();
 
-            if (string.IsNullOrEmpty(auditService.AmanaId))
+            if (!string.IsNullOrEmpty(auditService.AmanaId))
                 query.Where(e => e.AmanaId == int.Parse(auditService.AmanaId));
 
             if (!string.IsNullOrEmpty(request.Filter))
