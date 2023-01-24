@@ -46,7 +46,7 @@ namespace Application.UserManagment.Queries
 
                 var totalCount = drawings.Count();
                 var closedCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.Closed);
-                var assignedCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.Assigned);
+                var assignedCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.OnHold);
                 var inProgressCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.InProgress);
 
                 var submittedCount = drawings.Count(e => e.Status == DrawingStatus.Submitted);
@@ -54,10 +54,10 @@ namespace Application.UserManagment.Queries
                 var PendingCount = drawings.Count(e => e.Status == DrawingStatus.Pending);
 
 
-                var meetDeadlineCount = drawings.Where(e => e.OfficeStatus != OfficeDrawingStatus.Assigned)
+                var meetDeadlineCount = drawings.Where(e => e.OfficeStatus != OfficeDrawingStatus.OnHold)
                     .Count(e => GetDateDiff(e) >= 0);
 
-                var exceedDeadlineCount = drawings.Where(e => e.OfficeStatus != OfficeDrawingStatus.Assigned)
+                var exceedDeadlineCount = drawings.Where(e => e.OfficeStatus != OfficeDrawingStatus.OnHold)
                     .Count(e => GetDateDiff(e) < 0);
 
                 var values = new

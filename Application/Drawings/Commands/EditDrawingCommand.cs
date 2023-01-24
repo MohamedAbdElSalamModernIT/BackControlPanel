@@ -27,7 +27,7 @@ namespace Application.Drawings.Commands
         public int BuildingTypeId { get; set; }
         public string CustomerName { get; set; }
         public DateTime PlannedStartDate { get; set; }
-        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.Assigned;
+        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.OnHold;
 
         public void Register(TypeAdapterConfig config)
         {

@@ -24,7 +24,7 @@ namespace Application.Drawings.Commands
         public DateTime? PlannedEndDate { get; set; }
         public DateTime? ActualStartDate { get; set; }
         public DateTime? ActualEndDate { get; set; }
-        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.Assigned;
+        public OfficeDrawingStatus OfficeStatus { get; set; } = OfficeDrawingStatus.OnHold;
         public int BuildingTypeId { get; set; }
         public int BaladiaId { get; set; }
         public string CustomerName { get; set; }

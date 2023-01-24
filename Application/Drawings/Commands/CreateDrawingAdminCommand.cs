@@ -76,7 +76,7 @@ namespace Application.Drawings.Commands
             }
             else
             {
-                drwaing.OfficeStatus = OfficeDrawingStatus.Assigned;
+                drwaing.OfficeStatus = OfficeDrawingStatus.OnHold;
             }
 
             //if (!string.IsNullOrEmpty(request.FileStr))
