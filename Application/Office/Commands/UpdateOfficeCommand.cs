@@ -19,9 +19,9 @@ namespace Application.Office.Commands
     {
         public string Id { get; set; }
         public string Name { get; set; }
-
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         public FileDto Image { get; set; }
-        public string AmanaId { get; set; }
     }
 
     public class UpdateOfficeValidator : AbstractValidator<UpdateOfficeCommand>
@@ -34,8 +34,11 @@ namespace Application.Office.Commands
             RuleFor(r => r.Name).NotEmpty()
                   .WithMessage("Name is Required");
 
-            RuleFor(r => r.AmanaId).NotEmpty()
-                  .WithMessage("AmanaId is Required");
+            RuleFor(r => r.PhoneNumber).NotEmpty()
+                  .WithMessage("PhoneNumber is Required");
+
+            RuleFor(r => r.Email).NotEmpty()
+                  .WithMessage("Email is Required");
 
         }
     }
@@ -43,12 +46,13 @@ namespace Application.Office.Commands
     public class UpdateOfficeHandler : IRequestHandler<UpdateOfficeCommand, Result>
     {
         private readonly IAppDbContext _context;
-        private readonly IServiceScopeFactory serviceScopeFactory;
+        private readonly IFileService fileService;
 
-        public UpdateOfficeHandler(IAppDbContext context, IImageService imageService, IServiceScopeFactory serviceScopeFactory)
+        public UpdateOfficeHandler(IAppDbContext context, IImageService imageService
+            , IFileService fileService)
         {
             _context = context;
-            this.serviceScopeFactory = serviceScopeFactory;
+            this.fileService = fileService;
         }
 
         public async Task<Result> Handle(UpdateOfficeCommand request, CancellationToken cancellationToken)
@@ -59,6 +63,12 @@ namespace Application.Office.Commands
             if (office == null) return Result.Failure(ApiExceptionType.NotFound);
 
             var updatedoffice = request.Adapt(office);
+
+            if (request.Image.FileStatus != FileStatus.None)
+            {
+                var image = await fileService.SaveFileAsync(request.Image);
+                office.ImageUrl = image.Url;
+            }
 
             _context.Edit(updatedoffice);
 

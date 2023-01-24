@@ -13,6 +13,8 @@ namespace Domain.Entities.Benaa
         public string Id { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
 
         public int AmanaId { get; set; }
         public Amana Amana { get; set; }

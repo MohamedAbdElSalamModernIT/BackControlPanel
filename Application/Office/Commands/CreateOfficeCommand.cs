@@ -20,8 +20,9 @@ namespace Application.Office.Commands
     {
         public string Name { get; set; }
         public string OwnerId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         public FileDto Image { get; set; }
-        public string AmanaId { get; set; }
 
     }
 
@@ -32,8 +33,11 @@ namespace Application.Office.Commands
             RuleFor(r => r.Name).NotEmpty()
                   .WithMessage("Name is Required");
 
-            RuleFor(r => r.AmanaId).NotEmpty()
-                  .WithMessage("AmanaId is Required");
+            RuleFor(r => r.PhoneNumber).NotEmpty()
+                  .WithMessage("PhoneNumber is Required");
+
+            RuleFor(r => r.Email).NotEmpty()
+                  .WithMessage("Email is Required");
         }
     }
 
@@ -41,16 +45,20 @@ namespace Application.Office.Commands
     {
         private readonly IAppDbContext _context;
         private readonly IFileService fileService;
+        private readonly IAuditService auditService;
 
-        public CreateOfficeHandler(IAppDbContext context, IFileService fileService)
+        public CreateOfficeHandler(IAppDbContext context, IFileService fileService, IAuditService auditService)
         {
             _context = context;
             this.fileService = fileService;
+            this.auditService = auditService;
         }
 
         public async Task<Result> Handle(CreateOfficeCommand request, CancellationToken cancellationToken)
         {
             var office = request.Adapt<Domain.Entities.Benaa.Office>();
+
+            office.AmanaId = int.Parse(auditService.AmanaId);
             await _context.CreateAsync(office, cancellationToken);
 
             if (request.Image.FileStatus != FileStatus.None)

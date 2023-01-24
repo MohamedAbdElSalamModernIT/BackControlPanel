@@ -23,10 +23,12 @@ namespace Application.Office.Queries
     public class GetAmanatWithPaginationHandler : IRequestHandler<GetAllOfficesWithPagination, Result>
     {
         private readonly IAppDbContext _context;
+        private readonly IAuditService auditService;
 
-        public GetAmanatWithPaginationHandler(IAppDbContext context)
+        public GetAmanatWithPaginationHandler(IAppDbContext context, IAuditService auditService)
         {
             _context = context;
+            this.auditService = auditService;
         }
 
         public async Task<Result> Handle(GetAllOfficesWithPagination request, CancellationToken cancellationToken)
@@ -35,6 +37,9 @@ namespace Application.Office.Queries
                .Protected()
                .Include(e => e.Owner).Include(e => e.Amana)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(auditService.AmanaId))
+                query.Where(e => e.AmanaId == int.Parse(auditService.AmanaId));
 
             if (!string.IsNullOrEmpty(request.Filter))
                 query = query.Where(e => e.Name.Contains(request.Filter));
