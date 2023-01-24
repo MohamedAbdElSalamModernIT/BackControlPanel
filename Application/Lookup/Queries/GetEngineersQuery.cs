@@ -8,6 +8,7 @@ using Mapster;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Lookup.Dtos;
+using Domain.Enums;
 
 namespace Application.Lookup.Queries
 {
@@ -56,7 +57,9 @@ namespace Application.Lookup.Queries
         {
 
             var query = _context.AppUsers
-                .Where(e => string.IsNullOrEmpty(e.OfficeId)).AsQueryable();
+                .Where(e => string.IsNullOrEmpty(e.OfficeId))
+                .Where(e => e.UserType == UserType.OfficeManager)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(auditService.AmanaId))
             {
