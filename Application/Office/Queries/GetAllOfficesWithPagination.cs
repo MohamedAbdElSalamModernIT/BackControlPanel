@@ -34,12 +34,15 @@ namespace Application.Office.Queries
         public async Task<Result> Handle(GetAllOfficesWithPagination request, CancellationToken cancellationToken)
         {
             var query = _context.tblOffices
-               .Protected()
                .Include(e => e.Owner).Include(e => e.Amana)
+               .Protected()
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(auditService.AmanaId))
-                query.Where(e => e.AmanaId == int.Parse(auditService.AmanaId));
+            {
+                var amanaId = int.Parse(auditService.AmanaId);
+                query =  query.Where(e => e.AmanaId == amanaId);
+            }
 
             if (!string.IsNullOrEmpty(request.Filter))
                 query = query.Where(e => e.Name.Contains(request.Filter));
