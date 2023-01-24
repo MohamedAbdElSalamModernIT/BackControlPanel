@@ -9,6 +9,7 @@ using Common;
 using Common.Exceptions;
 using Common.Extensions;
 using Common.Infrastructures;
+using Domain.Entities.Benaa;
 using Domain.Enums;
 using Infrastructure.Interfaces;
 using MediatR;
@@ -47,16 +48,17 @@ namespace Application.UserManagment.Queries
                 var closedCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.Closed);
                 var assignedCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.Assigned);
                 var inProgressCount = drawings.Count(e => e.OfficeStatus == OfficeDrawingStatus.InProgress);
-                
+
                 var submittedCount = drawings.Count(e => e.Status == DrawingStatus.Submitted);
                 var rejectedCount = drawings.Count(e => e.Status == DrawingStatus.Rejected);
                 var PendingCount = drawings.Count(e => e.Status == DrawingStatus.Pending);
 
+
                 var meetDeadlineCount = drawings.Where(e => e.OfficeStatus != OfficeDrawingStatus.Assigned)
-                    .Count(e => e.PlannedEndDate <= (e.ActualEndDate ?? DateTime.UtcNow));
+                    .Count(e => GetDateDiff(e) >= 0);
 
                 var exceedDeadlineCount = drawings.Where(e => e.OfficeStatus != OfficeDrawingStatus.Assigned)
-                    .Count(e => e.PlannedEndDate > (e.ActualEndDate ?? DateTime.UtcNow));
+                    .Count(e => GetDateDiff(e) < 0);
 
                 var values = new
                 {
@@ -75,7 +77,12 @@ namespace Application.UserManagment.Queries
 
                 return Result.Successed(values);
             }
+            private int GetDateDiff(Drawing drawing)
+            {
+                var dueDate = drawing.ActualEndDate ?? DateTime.UtcNow;
+                return drawing.PlannedEndDate.Value.Subtract(dueDate).Days;
 
+            }
         }
     }
 }
