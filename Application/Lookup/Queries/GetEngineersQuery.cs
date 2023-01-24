@@ -58,7 +58,7 @@ namespace Application.Lookup.Queries
             var query = _context.AppUsers
                 .Where(e => string.IsNullOrEmpty(e.OfficeId)).AsQueryable();
 
-            if (string.IsNullOrEmpty(auditService.AmanaId))
+            if (!string.IsNullOrEmpty(auditService.AmanaId))
             {
                 int amanaId = int.Parse(auditService.AmanaId);
                 query = query.Where(e => e.AmanaId == amanaId);
