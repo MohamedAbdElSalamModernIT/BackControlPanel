@@ -38,7 +38,7 @@ namespace Application.UserManagment.Queries
                   .Include(e => e.Engineers)
                   .Include(e => e.Amana)
                   .Include(e => e.Drawings)
-                  .ThenInclude(e=>e.Logs)
+                  .ThenInclude(e => e.Logs)
                   .Protected()
                   .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
@@ -47,9 +47,9 @@ namespace Application.UserManagment.Queries
                 var officeDto = office.Adapt<OfficeDto>();
                 var drawings = office.Drawings;
                 var totalCount = drawings?.Count();
-                var logsCount = drawings?.SelectMany(e=>e.Logs).Count();
-                var baladiatCount = drawings?.GroupBy(e=>e.BaladiaId).Count();
-                var engineersCount = office.Engineers?.Count();
+                var logsCount = drawings?.SelectMany(e => e.Logs).Count();
+                var baladiatCount = drawings?.GroupBy(e => e.BaladiaId).Count();
+                var engineersCount = office.Engineers?.Count() - 1;
                 var submittedCount = drawings?.Count(e => e.Status == DrawingStatus.Submitted);
                 var rejectedCount = drawings?.Count(e => e.Status == DrawingStatus.Rejected);
                 var PendingCount = drawings?.Count(e => e.Status == DrawingStatus.Pending);
