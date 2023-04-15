@@ -14,6 +14,8 @@ namespace Application.Conditions.Queries
     public class GetConditionsWithPatametrs : Paging, IRequest<Result>
     {
     }
+    
+   
     public class GetConditionsWithPatametrsHandler : IRequestHandler<GetConditionsWithPatametrs, Result>
     {
         private readonly IAppDbContext _context;
@@ -42,4 +44,5 @@ namespace Application.Conditions.Queries
             return Result.Successed(list);
         }
     }
+   
 }

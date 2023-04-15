@@ -20,7 +20,7 @@ namespace Application.Conditions.Dtos
         public string Amana { get; set; }
         public double ConditionID { get; set; }
         public string VersionId { get; set; }
-
+        public bool Active { get; set; }
         public List<Parameter> Parameters { get; set; }
 
 
@@ -33,6 +33,7 @@ namespace Application.Conditions.Dtos
                  .Map(dest => dest.Condition, src => src.Condition.Description)
                  .Map(dest => dest.Amana, src => src.Baladia.Amana.Name)
                  .Map(dest => dest.Category, src => src.Condition.Category.Name)
+                 .Map(dest => dest.Active, src => src.Condition.Active)
                  .Map(dest => dest.VersionId, src => src.Condition.Version.VersionId)
                  .Map(dest => dest.ParentCategory, src => src.Condition.Category
                  .ParentCategory.Name)

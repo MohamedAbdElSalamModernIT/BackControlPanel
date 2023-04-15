@@ -9,6 +9,7 @@ namespace Domain.Entities.Benaa
         public string Description { get; set; }
         public string Rules { get; set; }
         public string Facts { get; set; }
+        public bool Active { get; set; } = true;
         public int? PlaceID { get; set; }
 
         public int VersionId { get; set; }

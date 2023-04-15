@@ -17,6 +17,12 @@ namespace Web.Controllers.Catalog
         {
             return ReturnResult(await Mediator.Send(request));
         }
+        
+        [HttpGet("inactive")]
+        public async Task<ActionResult> GetInActiveConditionsQuery([FromQuery] GetInActiveConditionsQuery request)
+        {
+            return ReturnResult(await Mediator.Send(request));
+        }
 
         [HttpGet("parameters")]
         public async Task<ActionResult> GetConditionsWithPatametrs([FromQuery] GetConditionsWithPatametrs request)

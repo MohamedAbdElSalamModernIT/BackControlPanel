@@ -15,6 +15,7 @@ namespace Application.Conditions.Dtos
         public string Description { get; set; }
         public string Category { get; set; }
         public string VersionId{ get; set; }
+        public bool Active{ get; set; }
 
         public void Register(TypeAdapterConfig config)
         {
@@ -28,6 +29,7 @@ namespace Application.Conditions.Dtos
         public double ID { get; set; }
         public string Name { get; set; }
         public string ParametersValues { get; set; }
+        public bool Active { get; set; }
 
 
         public List<Parameter> Parameters { get; set; }
