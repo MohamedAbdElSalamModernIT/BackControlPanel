@@ -16,6 +16,7 @@ namespace Application.Conditions.Queries
     public class GetConditionsWithPaginationQuery : Paging, IRequest<Result>
     {
         public string CategoryId { get; set; }
+        public int Id { get; set; } = 0;
     }
     public class GetConditionsWithPaginationHandler : IRequestHandler<GetConditionsWithPaginationQuery, Result>
     {
@@ -34,6 +35,11 @@ namespace Application.Conditions.Queries
 
             if (!string.IsNullOrEmpty(request.Filter))
                 query= query.Where(e => e.Description.Contains(request.Filter));
+
+            if (request.Id != 0)
+            {
+                query = query.Where(e => e.ID == request.Id);
+            }
 
             if (!string.IsNullOrEmpty(request.CategoryId))
                 query = query.Where(e => e.CategoryId == request.CategoryId);
