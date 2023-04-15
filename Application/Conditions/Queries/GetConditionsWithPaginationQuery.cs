@@ -16,7 +16,7 @@ namespace Application.Conditions.Queries
     public class GetConditionsWithPaginationQuery : Paging, IRequest<Result>
     {
         public string CategoryId { get; set; }
-        public int Id { get; set; } = 0;
+        public double Id { get; set; } = 0;
     }
     public class GetConditionsWithPaginationHandler : IRequestHandler<GetConditionsWithPaginationQuery, Result>
     {
